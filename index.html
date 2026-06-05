@@ -262,9 +262,12 @@ function render() {
   // 기존 핫스팟 제거
     document.querySelectorAll(".hotspot").forEach(el => el.remove());
 
-    // 이미지 로드 완료 후 핫스팟 추가
     const img = $("screenshot");
-    img.onload = () => {
+    const screen = $("screen");
+    screen.style.transition = "opacity 0.15s";
+    screen.style.opacity = "0";
+
+    const show = () => {
       const btn = document.createElement("button");
       btn.className = "hotspot correct";
       btn.style.left = s.hotspot.x + "%";
@@ -272,10 +275,14 @@ function render() {
       btn.style.width = s.hotspot.w + "%";
       btn.style.height = s.hotspot.h + "%";
       btn.addEventListener("click", next);
-      $("screen").appendChild(btn);
+      screen.appendChild(btn);
+      screen.style.opacity = "1";
     };
+
+    img.onload = show;
     img.src = s.image;
- 
+    if (img.complete) { img.onload = null; show(); }
+
 
   // 정답 핫스팟
   const btn = document.createElement("button");
