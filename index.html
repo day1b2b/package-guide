@@ -245,7 +245,6 @@ function render() {
     return;
   }
   const s = steps[current];
-  $("screenshot").src = s.image;
   $("step-title").textContent = s.title;
   $("step-instruction").textContent = s.instruction;
   $("step-detail").textContent = s.detail || "";
@@ -261,9 +260,23 @@ function render() {
   }
 
   // 기존 핫스팟 제거
-  document.querySelectorAll(".hotspot").forEach(el => el.remove());
+    document.querySelectorAll(".hotspot").forEach(el => el.remove());
+
+    // 이미지 로드 완료 후 핫스팟 추가
+    const img = $("screenshot");
+    img.onload = () => {
+      const btn = document.createElement("button");
+      btn.className = "hotspot correct";
+      btn.style.left = s.hotspot.x + "%";
+      btn.style.top = s.hotspot.y + "%";
+      btn.style.width = s.hotspot.w + "%";
+      btn.style.height = s.hotspot.h + "%";
+      btn.addEventListener("click", next);
+      $("screen").appendChild(btn);
+    };
+    img.src = s.image;
  
- 
+
   // 정답 핫스팟
   const btn = document.createElement("button");
   btn.className = "hotspot correct";
