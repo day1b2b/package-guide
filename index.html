@@ -263,10 +263,6 @@ function render() {
   // 기존 핫스팟 제거
   document.querySelectorAll(".hotspot").forEach(el => el.remove());
  
- const btn = document.createElement("button");
- btn.className = "hotspot correct";
- btn.style.left = s.hotspot.x + "%";
- btn.style.top = s.hotspot.y + "%";
  
   // 정답 핫스팟
   const btn = document.createElement("button");
